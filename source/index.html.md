@@ -1,11 +1,11 @@
 ---
-title: API Reference
+title: DeepSign API Reference
 
 language_tabs: # must be one of https://github.com/rouge-ruby/rouge/wiki/List-of-supported-languages-and-lexers
   - shell
-  - ruby
-  - python
-  - javascript
+  - java
+  - csharp
+  - http
 
 toc_footers:
   - <a href='#'>Sign Up for a Developer Key</a>
@@ -20,226 +20,316 @@ code_clipboard: true
 
 meta:
   - name: description
-    content: Documentation for the Kittn API
+    content: Documentation for the DeepSign API
 ---
 
 # Introduction
 
-Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.
+Welcome to the DeepSign API ! The DeepSign API endpoints is relatively easy to use. 
 
-We have language bindings in Shell, Ruby, Python, and JavaScript! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
+Before you can access the DeepSign API endpoints, you have to be registered with DeepSign as a partner. During this 
+process you receive a partner identification which can be used to create a DeepSign Service User on a customers DeepBox account.  There are
+various way of configuring this stage, which depend on the solution being implemented.  For example, if the integration is a web based 
+solution then web hooks can be used to retrieve service user credential, otherwise there are manual ways to integrate service user for 
+non-web based solutions.
 
-This example API documentation page was created with [Slate](https://github.com/slatedocs/slate). Feel free to edit it and use it as a base for your own API's documentation.
+Please contact DeepSign development personnel to determine the best way to integrate the partner access for an integration.    
 
 # Authentication
 
+Authenication uses standard Oauth technologies to access the DeepSign API's.  The method may vary slightly depending on the DeepSign registration
+method.  For example authentication may or may not use a JSON Web Key Set (JWKS).
+
 > To authorize, use this code:
 
-```ruby
-require 'kittn'
+```java
+// No example available
 
-api = Kittn::APIClient.authorize!('meowmeowmeow')
 ```
 
-```python
-import kittn
+```csharp
+// No java example available
 
-api = kittn.authorize('meowmeowmeow')
 ```
 
 ```shell
 # With shell, you can just pass the correct header with each request
 curl "api_endpoint_here" \
-  -H "Authorization: meowmeowmeow"
+  -H "Authorization: Bearer eyJhbGciOiJSUzI1NiIsI...[abbreviated for display]...PsdqNfifKC9r5JKVoQ"
 ```
 
-```javascript
-const kittn = require('kittn');
+All DeepSign API calls require the "Authorization" header to be included in requests as shown below:
 
-let api = kittn.authorize('meowmeowmeow');
-```
-
-> Make sure to replace `meowmeowmeow` with your API key.
-
-Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our [developer portal](http://example.com/developers).
-
-Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:
-
-`Authorization: meowmeowmeow`
+`Authorization: Bearer eyJhbGciOiJSUzI1NiIsI...[abbreviated for display]...PsdqNfifKC9r5JKVoQ`
 
 <aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
+Make sure to replace <code>eyJhbGciOiJSUzI1NiIsI...[abbreviated for display]...PsdqNfifKC9r5JKVoQ</code> with the DeepSign API access token.
 </aside>
 
-# Kittens
+# Upload Document
 
-## Get All Kittens
+## Upload PDF file to DeepSign
 
-```ruby
-require 'kittn'
+```java
+// No java example available
 
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get
 ```
 
-```python
-import kittn
+```csharp
+// No java example available
 
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get()
+```
+
+```http
+POST /api/v1/documents/file HTTP/1.1
+Accept-Charset: UTF-8
+Accept: application/json
+Content-Type: multipart/form-data; boundary=---------9B82F53A7B2247AB8B5B9707CBB0DFD2
+Authorization: Bearer eyJhbGciOiJSUzI1NiIsI...[abbreviated for display]...PsdqNfifKC9r5JKVoQ
+Content-Length: 27896
+
+-----------9B82F53A7B2247AB8B5B9707CBB0DFD2
+Content-Disposition: form-data; name="data"
+Content-Type: application/json; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+{
+  "companyId": "09795a43-baaf-48ae-91a6-a533168f803a",
+  "initiatorAliasName":"Mr. Tester",
+  "comment":"PDF file for testing",
+  "signatureMode":"timestamp"
+}
+-----------9B82F53A7B2247AB8B5B9707CBB0DFD2
+Content-Disposition: form-data; name="file"; filename="example.pdf"
+Content-Type: application/pdf
+Content-Transfer-Encoding: binary
+
+%PDF-1.4
+%äüöß
+2 0 obj
+&lt;&lt;/Length 3 0 R/Filter/FlateDecode&gt;&gt;
+stream
+   ...[abbreviated for display]...
+trailer
+&lt;&lt;/Size 14/Root 12 0 R
+/Info 13 0 R
+/ID [ &lt;853D3233C8F28B5C661255FC0C316B56&gt;
+&lt;853D3233C8F28B5C661255FC0C316B56&gt; ]
+/DocChecksum /0F3E7CFA8C22C3D6D3FF7F1AD91C10B8
+&gt;&gt;
+startxref
+26698
+%%EOF
+
+-----------E2E5A3B22A5B4756AD25BD8403C2D731--
 ```
 
 ```shell
-curl "http://example.com/api/kittens" \
-  -H "Authorization: meowmeowmeow"
+curl -X POST --location "https://api.sign.deepbox.swiss/api/v1/documents/file" \
+                -H "Authorization: Bearer ..." -H "Content-Type: multipart/form-data" \ 
+                -F "file=@/path/to/example.pdf;type=application/pdf" \
+                -F "data={\"companyId\": \"09795a43-baaf-48ae-91a6-a533168f803a\"};type=application/json" 
 ```
 
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let kittens = api.kittens.get();
-```
 
 > The above command returns JSON structured like this:
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
-]
+{
+  "documentId":"bb602c43-caae-4656-a447-233b2317b14a",
+  "documentName":"example.pdf",
+  "documentMimeType":"application/pdf",
+  "documentUrl":"https://bb.storage.deepbox.swiss/deepsign/data/bb/60/2c/43-caae...[abbreviated for display]...a2d873ba6e0c2583dd8a",
+  "thumbnailUrl":null,
+  "companyId":"09795a43-baaf-48ae-91a6-a533168f803a",
+  "creationTime":"<span class="exampleJsonDate">2022-12-13T12:10:16.650+00:00rr</span>",
+  "startTime":null,
+  "completionTime":null,
+  "documentStatus":"draft",
+  "signatureMode":"timestamp",
+  "jurisdiction":"zertes",
+  "authorityService":"ras",
+  "comment":"PDF file for testing",
+  "initiatorCompanyDisplayName":"Abacus Software AG",
+  "initiatorCompanyIsVerified":true,
+  "initiatorCompanyVerificationType":"strong",
+  "initiatorDisplayName":"Mr. Tester",
+  "initiatorDisplayEmail":null,
+  "initiatorSignKey":null,
+  "signees":[],
+  "signeesOrdered":[],
+  "attachmentsAllowed":false
+}
 ```
 
-This endpoint retrieves all kittens.
+This endpoint upload a PDF document to DeepSign.
 
 ### HTTP Request
 
-`GET http://example.com/api/kittens`
+`POST https://api.sign.deepbox.swiss/api/v1/documents/file`
 
-### Query Parameters
+### Message Structure
+The document upload is a 2 part, multipart mime POST request. The first part contains the JSON information for the document being uploaded and a the second part contains the binary encoded document (i.e. pdf file).
+The following headers should be present in the Request when uploading document files :
 
-Parameter | Default | Description
---------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+
+Accept: application/json<br/>
+Content-Type: multipart/form-data
+
+<strong>Note:</strong> Each multipart mime part must also contain the &quot;Content-Disposition&quot; header specifiying the &quot;name&quot; for each section.
+<br/>
+For example :
+
+Part | Required Header
+--------- | -----------
+data | Content-Disposition: form-data; name="data"
+file | Content-Disposition: form-data; name="file"; filename="example.pdf"
+
+as shown in the HTTP example.
 
 <aside class="success">
-Remember — a happy kitten is an authenticated kitten!
+After uploading a document to DeepSign the &quot;documentStatus&quot; will be set to &quot;draft&quot;.
 </aside>
 
-## Get a Specific Kitten
+## Get Document Overview
 
-```ruby
-require 'kittn'
+```java
+// No example available
 
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get(2)
 ```
 
-```python
-import kittn
+```csharp
+// No example available
 
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get(2)
 ```
 
 ```shell
-curl "http://example.com/api/kittens/2" \
-  -H "Authorization: meowmeowmeow"
+curl -H "Authorization: Bearer eyJhbGciOiJSUzI1NiIsI...[abbreviated for display]...PsdqNfifKC9r5JKVoQ" \ 
+       "https://api.sign.deepbox.swiss/api/v1/overview?offset=0&limit=50"
 ```
 
-```javascript
-const kittn = require('kittn');
+```http
+GET /api/v1/overview?offset=0&limit=50 HTTP/1.1
+Accept-Charset: UTF-8
+Accept: application/json
+Authorization: Bearer eyJhbGciOiJSUzI1NiIsI...[abbreviated for display]...PsdqNfifKC9r5JKVoQ
+User-Agent: Java/11.0.14.1
+Host: api.sign.deepbox.swiss
+Connection: keep-alive
 
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.get(2);
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
 {
-  "id": 2,
-  "name": "Max",
-  "breed": "unknown",
-  "fluffiness": 5,
-  "cuteness": 10
+  "documentId":"bb602c43-caae-4656-a447-233b2317b14a",
+  "documentName":"example.pdf",
+  "documentMimeType":"application/pdf",
+  "documentUrl":"https://bb.storage.deepbox.swiss/deepsign/data/bb/60/2c/43-caae...[abbreviated for display]...a2d873ba6e0c2583dd8a",
+  "thumbnailUrl":null,
+  "companyId":"09795a43-baaf-48ae-91a6-a533168f803a",
+  "creationTime":"<span class="exampleJsonDate">2022-12-13T12:10:16.650+00:00rr</span>",
+  "startTime":null,
+  "completionTime":null,
+  "documentStatus":"draft",
+  "signatureMode":"timestamp",
+  "jurisdiction":"zertes",
+  "authorityService":"ras",
+  "comment":"PDF file for testing",
+  "initiatorCompanyDisplayName":"Abacus Software AG",
+  "initiatorCompanyIsVerified":true,
+  "initiatorCompanyVerificationType":"strong",
+  "initiatorDisplayName":"Mr. Tester",
+  "initiatorDisplayEmail":null,
+  "initiatorSignKey":null,
+  "signees":[],
+  "signeesOrdered":[],
+  "attachmentsAllowed":false
 }
 ```
 
-This endpoint retrieves a specific kitten.
+This endpoint retrieves the overview of all available documents on the DeepSign server
 
 <aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
 
 ### HTTP Request
 
-`GET http://example.com/kittens/<ID>`
+`GET https://api.sign.deepbox.swiss/api/v1/overview?offset=0&limit=50`
 
 ### URL Parameters
 
 Parameter | Description
 --------- | -----------
-ID | The ID of the kitten to retrieve
+offset | The offset of the starting document to retrieve
+limit | The maximum number of documents that should be retrieved for the request
 
-## Delete a Specific Kitten
+## Add a Signee
 
-```ruby
-require 'kittn'
+```java
+// No java example available
 
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.delete(2)
 ```
 
-```python
-import kittn
+```csharp
+// No csharp example available
 
-api = kittn.authorize('meowmeowmeow')
-api.kittens.delete(2)
 ```
 
 ```shell
-curl "http://example.com/api/kittens/2" \
-  -X DELETE \
-  -H "Authorization: meowmeowmeow"
+curl "https://api.sign.deepbox.swiss/api/v1/documents/bb602c43-caae-4656-a447-233b2317b14a/signees" \
+  -X POST \
+  -H "Authorization: Bearer eyJhbGciOiJSUzI1NiIsI...[abbreviated for display]...PsdqNfifKC9r5JKVoQ"
 ```
 
-```javascript
-const kittn = require('kittn');
+```http
+POST /api/v1/documents/bb602c43-caae-4656-a447-233b2317b14a/signees HTTP/1.1
+Accept-Charset: UTF-8
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJSUzI1NiIsI...[abbreviated for display]...PsdqNfifKC9r5JKVoQ
+Content-Length: 68
 
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.delete(2);
+{
+  "email": "test.person@abacus.ch",
+  "comment": "PDF file for testing",
+  "signOrder": 0
+}
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
 {
-  "id": 2,
-  "deleted" : ":("
+  "signeeId":"56f16b80-0058-44d8-bf33-2847612b24b1",
+  "email":"test.person@abacus.ch",
+  "signUrl":null,
+  "documentId":"bb602c43-caae-4656-a447-233b2317b14a",
+  "viewedTime":null,
+  "signedTime":null,
+  "completionTime":null,
+  "signStatus":"on-hold",
+  "initiatorComment":"PDF file for testing",
+  "signeeComment":null,
+  "language":null,
+  "autographPosition":null,
+  "signOrder":0,
+  "policy":
+  {
+    "canModifyAutographPosition":true
+  }
 }
 ```
 
-This endpoint deletes a specific kitten.
+This endpoint adds specific signee to a DeepSign document
 
 ### HTTP Request
 
-`DELETE http://example.com/kittens/<ID>`
+`POST /api/v1/documents/{documentId}/signees`
 
 ### URL Parameters
 
 Parameter | Description
 --------- | -----------
-ID | The ID of the kitten to delete
+documentId | The ID of the document where the signee is added
 
