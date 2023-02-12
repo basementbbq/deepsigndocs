@@ -23,11 +23,13 @@ under the License.
 
 // BACKGROUND COLORS
 ////////////////////
-$nav-bg: #2E3336 !default;
+// $nav-bg: #2E3336 !default;   // Original dark background from slate example
+$nav-bg: #0052FF !default; // The dark blue background from deepsign
 $examples-bg: #2E3336 !default;
 $code-bg: #1E2224 !default;
 $code-annotation-bg: #191D1F !default;
-$nav-subitem-bg: #1E2224 !default;
+// $nav-subitem-bg: #1E2224 !default;   // Original background from slate example
+$nav-subitem-bg: #3375FF !default; // The lighter dark blue background from deepsign
 $nav-active-bg: #0F75D4 !default;
 $nav-active-parent-bg: #1E2224 !default; // parent links of the current section
 $lang-select-border: #000 !default;
@@ -35,11 +37,11 @@ $lang-select-bg: #1E2224 !default;
 $lang-select-active-bg: $examples-bg !default; // feel free to change this to blue or something
 $lang-select-pressed-bg: #111 !default; // color of language tab bg when mouse is pressed
 $main-bg: #F3F7F9 !default;
-$aside-notice-bg: #8fbcd4 !default;
+//$aside-notice-bg: #8fbcd4 !default;
+$aside-notice-bg: #92B5FF !default;   // general notices used in the main docus
 $aside-warning-bg: #c97a7e !default;
 $aside-success-bg: #6ac174 !default;
 $search-notice-bg: #c97a7e !default;
-
 
 // TEXT COLORS
 ////////////////////

@@ -8,7 +8,6 @@ language_tabs: # must be one of https://github.com/rouge-ruby/rouge/wiki/List-of
   - http
 
 toc_footers:
-  - <a href='#'>Sign Up for a Developer Key</a>
   - <a href='https://github.com/slatedocs/slate'>Documentation Powered by Slate</a>
 
 includes:
@@ -37,10 +36,11 @@ Please contact DeepSign development personnel to determine the best way to integ
 
 # Authentication
 
-Authenication uses standard Oauth technologies to access the DeepSign API's.  The method may vary slightly depending on the DeepSign registration
-method.  For example authentication may or may not use a JSON Web Key Set (JWKS).
+Authentication uses standard OAuth technologies to access the DeepSign API's.  The method may vary slightly depending on the DeepSign registration
+method.  For example, the authentication may or may not use a JSON Web Key Set (JWKS).  The authentication via the DeepSign platform
+retrieves the access token.  The access token is then used in the "Authorization" HTTP header to validate the access to the customer's DeepSign.
 
-> To authorize, use this code:
+> The "access_token" retrieved from the OAuth authentication is used to validate the requests for DeepSign. The access_token is used in the Authorization HTTP Header as shown below.
 
 ```java
 // No example available
@@ -132,7 +132,7 @@ curl -X POST --location "https://api.sign.deepbox.swiss/api/v1/documents/file" \
 ```
 
 
-> The above command returns JSON structured like this:
+> The above request returns JSON structured like this:
 
 ```json
 {
@@ -168,6 +168,10 @@ This endpoint upload a PDF document to DeepSign.
 
 `POST https://api.sign.deepbox.swiss/api/v1/documents/file`
 
+### Swagger Reference
+
+<a class="swagger_link" style="text-decoration: none; color: #000000;" href="https://api.sign.deepbox.swiss/swagger-ui/index.html?configUrl=/api-docs/swagger-config#/document-rest-controller/addDocumentFile" target="abacusswaggerapi" ><span class="swagger_post_button">POST</span><span class="swagger_post_link">/api/v1/documents/file</span></a>
+
 ### Message Structure
 The document upload is a 2 part, multipart mime POST request. The first part contains the JSON information for the document being uploaded and a the second part contains the binary encoded document (i.e. pdf file).
 The following headers should be present in the Request when uploading document files :
@@ -191,7 +195,7 @@ as shown in the HTTP example.
 After uploading a document to DeepSign the &quot;documentStatus&quot; will be set to &quot;draft&quot;.
 </aside>
 
-## Get Document Overview
+# Get Document Overview
 
 ```java
 // No example available
@@ -213,13 +217,10 @@ GET /api/v1/overview?offset=0&limit=50 HTTP/1.1
 Accept-Charset: UTF-8
 Accept: application/json
 Authorization: Bearer eyJhbGciOiJSUzI1NiIsI...[abbreviated for display]...PsdqNfifKC9r5JKVoQ
-User-Agent: Java/11.0.14.1
-Host: api.sign.deepbox.swiss
-Connection: keep-alive
 
 ```
 
-> The above command returns JSON structured like this:
+> The above request returns JSON structured like this:
 
 ```json
 {
@@ -251,8 +252,6 @@ Connection: keep-alive
 
 This endpoint retrieves the overview of all available documents on the DeepSign server
 
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
-
 ### HTTP Request
 
 `GET https://api.sign.deepbox.swiss/api/v1/overview?offset=0&limit=50`
@@ -264,7 +263,18 @@ Parameter | Description
 offset | The offset of the starting document to retrieve
 limit | The maximum number of documents that should be retrieved for the request
 
-## Add a Signee
+The URL Parameters are optional
+
+### Swagger Reference
+
+<a class="swagger_link" style="text-decoration: none; color: #000000;" href="https://api.sign.deepbox.swiss/swagger-ui/index.html?configUrl=/api-docs/swagger-config#/overview-rest-controller/getOverview" target="abacusswaggerapi" ><span class="swagger_get_button">GET</span><span class="swagger_get_link">/api/v1/overview</span></a>
+
+
+
+The Document Overview returns the general information and status about each document.  More detailed information about a document can be 
+retrieved with the GET Request using the Document ID 
+
+# Add a Signee
 
 ```java
 // No java example available
@@ -277,9 +287,10 @@ limit | The maximum number of documents that should be retrieved for the request
 ```
 
 ```shell
-curl "https://api.sign.deepbox.swiss/api/v1/documents/bb602c43-caae-4656-a447-233b2317b14a/signees" \
-  -X POST \
-  -H "Authorization: Bearer eyJhbGciOiJSUzI1NiIsI...[abbreviated for display]...PsdqNfifKC9r5JKVoQ"
+curl -X POST --location "https://api.sign.deepbox.swiss/api/v1/documents/bb602c43-caae-4656-a447-233b2317b14a/signees" \
+  -H "Authorization: Bearer eyJhbGciOiJSUzI1NiIsI...[abbreviated for display]...PsdqNfifKC9r5JKVoQ" \
+  -H "Content-Type: application/json" \
+  -d '{"email":"test.person@abacus.ch","comment":"Please sign the PDF file","signOrder":0}'
 ```
 
 ```http
@@ -292,12 +303,12 @@ Content-Length: 68
 
 {
   "email": "test.person@abacus.ch",
-  "comment": "PDF file for testing",
+  "comment": "Please sign the PDF file",
   "signOrder": 0
 }
 ```
 
-> The above command returns JSON structured like this:
+> The above request returns JSON structured like this:
 
 ```json
 {
@@ -332,4 +343,175 @@ This endpoint adds specific signee to a DeepSign document
 Parameter | Description
 --------- | -----------
 documentId | The ID of the document where the signee is added
+
+### Swagger Reference
+
+<a class="swagger_link" style="text-decoration: none; color: #000000;" href="https://api.sign.deepbox.swiss/swagger-ui/index.html?configUrl=/api-docs/swagger-config#/signee-rest-controller/addSignee" target="abacusswaggerapi" ><span class="swagger_post_button">POST</span><span class="swagger_post_link">/api/v1/documents/{documentId}/signees</span></a>
+
+
+<aside class="notice">
+Make sure the HTTP Header "Content-Type: application/json" is used, otherwise an error may occur.
+</aside>
+
+# Add an Observer
+
+```java
+// No java example available
+
+```
+
+```csharp
+// No csharp example available
+
+```
+
+```shell
+curl -X POST --location "https://api.sign.deepbox.swiss/api/v1/documents/bb602c43-caae-4656-a447-233b2317b14a/observers" \
+  -H "Authorization: Bearer eyJhbGciOiJSUzI1NiIsI...[abbreviated for display]...PsdqNfifKC9r5JKVoQ" \
+  -H "Content-Type: application/json" \
+  -d '{"email":"test.person@abacus.ch","comment":"Observer for PDF file","isAdmin":false}'
+```
+
+```http
+POST /api/v1/documents/bb602c43-caae-4656-a447-233b2317b14a/observers HTTP/1.1
+Accept-Charset: UTF-8
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJSUzI1NiIsI...[abbreviated for display]...PsdqNfifKC9r5JKVoQ
+Content-Length: 68
+
+{
+  "email": "test.person@abacus.ch",
+  "comment": "Observer for PDF file",
+  "isAdmin": false
+}
+```
+
+> The above request returns JSON structured like this:
+
+```json
+{
+  "observerId":"3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "email":"test.person@abacus.ch",
+  "signUrl":"string",
+  "documentId":"bb602c43-caae-4656-a447-233b2317b14a",
+  "viewedTime":null,
+  "initiatorComment":"Observer for PDF file",
+  "language":"de",
+  "isAdmin":false
+}
+```
+
+This endpoint adds specific observer to a DeepSign document
+
+<aside class="success">
+Observers can view the PDF document and check the current status. If the observer is set as Administrator, they can view the
+PDF Document in their DeepSign cockpit, and have full administrator access to the sign process.
+</aside>
+
+### HTTP Request
+
+`POST /api/v1/documents/{documentId}/observers`
+
+### URL Parameters
+
+Parameter | Description
+--------- | -----------
+documentId | The ID of the document where the observer is added
+
+### Swagger Reference
+
+<a class="swagger_link" style="text-decoration: none; color: #000000;" href="https://api.sign.deepbox.swiss/swagger-ui/index.html?configUrl=/api-docs/swagger-config#/observer-rest-controller/addObserver" target="abacusswaggerapi" ><span class="swagger_post_button">POST</span><span class="swagger_post_link">/api/v1/documents/{documentId}/observers</span></a>
+
+<aside class="notice">
+Make sure the HTTP Header "Content-Type: application/json" is used, otherwise an error may occur.
+</aside>
+
+
+# Start Sign Process
+
+```java
+// No java example available
+
+```
+
+```csharp
+// No csharp example available
+
+```
+
+```shell
+curl -X PUT --location "https://api.sign.deepbox.swiss/api/v1/documents/bb602c43-caae-4656-a447-233b2317b14a/start" \
+  -H "Authorization: Bearer eyJhbGciOiJSUzI1NiIsI...[abbreviated for display]...PsdqNfifKC9r5JKVoQ" \
+  -H "Content-Type: application/json"
+```
+
+```http
+PUT /api/v1/documents/bb602c43-caae-4656-a447-233b2317b14a/start HTTP/1.1
+Accept-Charset: UTF-8
+Accept: application/json
+Authorization: Bearer eyJhbGciOiJSUzI1NiIsI...[abbreviated for display]...PsdqNfifKC9r5JKVoQ
+```
+
+> The above request returns and empty response with HTTP 204 No Content
+> <br/>HTTP/1.1 204 No Content
+
+After all the signees have been added to a DeepSign document, the sign process can be started.
+
+<aside class="notice">
+Once the sign process has been started, additional changes to most document properties, signees, observers, etc. are no longer possible.
+</aside>
+
+### HTTP Request
+
+`POST /api/v1/documents/{documentId}/start`
+
+### Swagger Reference
+
+<a class="swagger_link" style="text-decoration: none; color: #000000;" href="https://api.sign.deepbox.swiss/swagger-ui/index.html?configUrl=/api-docs/swagger-config#/document-rest-controller/startDocument" target="abacusswaggerapi" ><span class="swagger_put_button">PUT</span><span class="swagger_put_link">/api/v1/documents/{documentId}/start</span></a>
+
+
+
+# Withraw Document from Process
+
+```java
+// No java example available
+
+```
+
+```csharp
+// No csharp example available
+
+```
+
+```shell
+curl -X PUT --location "https://api.sign.deepbox.swiss/api/v1/documents/bb602c43-caae-4656-a447-233b2317b14a/withdraw" \
+  -H "Authorization: Bearer eyJhbGciOiJSUzI1NiIsI...[abbreviated for display]...PsdqNfifKC9r5JKVoQ" \
+  -H "Content-Type: application/json"
+```
+
+```http
+PUT /api/v1/documents/bb602c43-caae-4656-a447-233b2317b14a/withdraw HTTP/1.1
+Accept-Charset: UTF-8
+Accept: application/json
+Authorization: Bearer eyJhbGciOiJSUzI1NiIsI...[abbreviated for display]...PsdqNfifKC9r5JKVoQ
+```
+
+> The above request returns and empty response with HTTP 204 No Content
+> <br/>HTTP/1.1 204 No Content
+
+Withdraws a Document from signing process. after the signing process has been started.
+
+<aside class="notice">
+Once the document has been withdrawn the signing process cannot be restarted.  The document must be uploaded to DeepSign again, as a new document.
+</aside>
+
+### HTTP Request
+
+`POST /api/v1/documents/{documentId}/withdraw`
+
+### Swagger Reference
+
+<a class="swagger_link" style="text-decoration: none; color: #000000;" href="https://api.sign.deepbox.swiss/swagger-ui/index.html?configUrl=/api-docs/swagger-config#/document-rest-controller/withdrawDocument" target="abacusswaggerapi" ><span class="swagger_put_button">PUT</span><span class="swagger_put_link">/api/v1/documents/{documentId}/withdraw</span></a>
+
 

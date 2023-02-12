@@ -637,3 +637,86 @@ html, body {
 .copy-clipboard:hover {
   opacity: 0.8;
 }
+
+////////////////////////////////////////////////////////////////////////////////
+// SWAGGER LINKS
+////////////////////////////////////////////////////////////////////////////////
+// These are the styles for teh swagger links
+
+.swagger_link {
+  a {
+    color: #000000;
+    font-weight: bold;
+    text-decoration: none;
+
+    &:visited, &:hover, &:active, &:focus {
+      text-decoration: none;
+    }
+  }
+}
+
+.swagger_get_button,
+.swagger_get_link,
+.swagger_put_button,
+.swagger_put_link,
+.swagger_post_button,
+.swagger_post_link
+{
+   font-size: 14px;
+   font-weight: bold;
+   text-align: left;
+   vertical-align: middle;
+   padding-top: 1px;
+   padding-bottom: 1px;
+   padding-left: 5px;
+   padding-right: 5px;
+   border: 1px solid #E5E5E5;
+   background-color: #E5E5E5;
+   text-decoration: none;
+  a {
+    color: #000000;
+    font-weight: bold;
+    text-decoration: none;
+
+    &:visited, &:hover, &:active, &:focus {
+      text-decoration: none;
+    }
+  }
+}
+
+.swagger_get_button
+{
+   background-color: #61AFFE;
+   border: 1px solid #61AFFE;
+   border-radius: 5px 0px 0px 5px;  /* top-left, top-right, bottom-right, bottom-left */
+}
+.swagger_get_link
+{
+   background-color: #EBF3FB;
+   border: 1px solid #61AFFE;
+   border-radius: 0px 5px 5px 0px;  /* top-left, top-right, bottom-right, bottom-left */
+}
+.swagger_post_button
+{
+   background-color: #49CC90;
+   border: 1px solid #49CC90;
+   border-radius: 5px 0px 0px 5px;  /* top-left, top-right, bottom-right, bottom-left */
+}
+.swagger_post_link
+{
+   background-color: #E8F6F0;
+   border: 1px solid #49CC90;
+   border-radius: 0px 5px 5px 0px;  /* top-left, top-right, bottom-right, bottom-left */
+}
+.swagger_put_button
+{
+   background-color: #FCA130;
+   border: 1px solid #FCA130;
+   border-radius: 5px 0px 0px 5px;  /* top-left, top-right, bottom-right, bottom-left */
+}
+.swagger_put_link
+{
+   background-color: #FBF1E6;
+   border: 1px solid #FCA130;
+   border-radius: 0px 5px 5px 0px;  /* top-left, top-right, bottom-right, bottom-left */
+}
