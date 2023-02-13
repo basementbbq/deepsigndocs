@@ -423,6 +423,7 @@ documentId | The ID of the document where the observer is added
 
 <a class="swagger_link" style="text-decoration: none; color: #000000;" href="https://api.sign.deepbox.swiss/swagger-ui/index.html?configUrl=/api-docs/swagger-config#/observer-rest-controller/addObserver" target="abacusswaggerapi" ><span class="swagger_post_button">POST</span><span class="swagger_post_link">/api/v1/documents/{documentId}/observers</span></a>
 
+
 <aside class="notice">
 Make sure the HTTP Header "Content-Type: application/json" is used, otherwise an error may occur.
 </aside>
