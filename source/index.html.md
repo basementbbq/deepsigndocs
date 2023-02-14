@@ -142,7 +142,7 @@ curl -X POST --location "https://api.sign.deepbox.swiss/api/v1/documents/file" \
   "documentUrl":"https://bb.storage.deepbox.swiss/deepsign/data/bb/60/2c/43-caae...[abbreviated for display]...a2d873ba6e0c2583dd8a",
   "thumbnailUrl":null,
   "companyId":"09795a43-baaf-48ae-91a6-a533168f803a",
-  "creationTime":"<span class="exampleJsonDate">2022-12-13T12:10:16.650+00:00rr</span>",
+  "creationTime":"2022-12-13T12:10:16.650+00:00",
   "startTime":null,
   "completionTime":null,
   "documentStatus":"draft",
@@ -230,7 +230,7 @@ Authorization: Bearer eyJhbGciOiJSUzI1NiIsI...[abbreviated for display]...PsdqNf
   "documentUrl":"https://bb.storage.deepbox.swiss/deepsign/data/bb/60/2c/43-caae...[abbreviated for display]...a2d873ba6e0c2583dd8a",
   "thumbnailUrl":null,
   "companyId":"09795a43-baaf-48ae-91a6-a533168f803a",
-  "creationTime":"<span class="exampleJsonDate">2022-12-13T12:10:16.650+00:00rr</span>",
+  "creationTime":"2022-12-13T12:10:16.650+00:00",
   "startTime":null,
   "completionTime":null,
   "documentStatus":"draft",
@@ -473,7 +473,7 @@ Once the sign process has been started, additional changes to most document prop
 
 
 
-# Withraw Document from Process
+# Withraw Document
 
 ```java
 // No java example available
